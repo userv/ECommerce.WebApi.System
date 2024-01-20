@@ -1,11 +1,12 @@
 ﻿using System.Reflection;
 using ECommerce.WebApi.System.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.WebApi.System.Data
 {
-    public class ECommerceDbContext : IdentityDbContext<User>
+    public class ECommerceDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
 
 

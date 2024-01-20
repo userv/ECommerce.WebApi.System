@@ -1,5 +1,6 @@
 ﻿using ECommerce.WebApi.System.Data;
 using ECommerce.WebApi.System.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,7 @@ namespace ECommerce.WebApi.System.Controllers
         }
         // GET: api/<CategoriesController>
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Category>>> GetAll()
         {
             if (!db.Categories.Any())

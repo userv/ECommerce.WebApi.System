@@ -1,6 +1,7 @@
 ﻿
 using ECommerce.WebApi.System.Data;
 using ECommerce.WebApi.System.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.WebApi.System
@@ -8,11 +9,13 @@ namespace ECommerce.WebApi.System
     public class SeedData
     {
         private readonly ECommerceDbContext db;
-        public SeedData(ECommerceDbContext db)
+        private readonly UserManager<User> userManager;
+        public SeedData(ECommerceDbContext db, UserManager<User> userManager)
         {
             this.db = db;
+            this.userManager = userManager;
         }
-        public static void Seed(ECommerceDbContext db)
+        public static void Seed(ECommerceDbContext db, UserManager<User> userManager)
         {
 
 
@@ -27,8 +30,48 @@ namespace ECommerce.WebApi.System
                 db.SaveChanges();
             }
 
+            if (db.Users.Any() == false)
+            {
+                foreach (var user in GetUsers())
+                {
+                 //   db.Users.Add(user);
+                 var results=userManager.CreateAsync(user, user.Password).GetAwaiter().GetResult();
+                }
+                // db.Categories.AddRange(GetCategories());
+                db.SaveChanges();
+            }
 
 
+
+        }
+
+        public static IEnumerable<User> GetUsers()
+        {
+            return new List<User>
+            {
+                new User
+                {
+                    UserName = "user",
+                    Email = "user@mail.bg",
+                    FirstName = "User",
+                    LastName = "User",
+                    Address = "Sofia",
+                    Password = "Rs123456#",
+                    Role = "User"
+                },
+                new User
+                {
+                    UserName = "admin",
+                    Email = "admin@admin.bg",
+                    FirstName = "Rosen",
+                    LastName = "Angelov",
+                    Address = "Sofia",
+                    Password = "Rs123456#",
+                    Role = "Admin"
+
+
+                }
+            };
         }
         public static IEnumerable<Category> GetCategories()
         {
