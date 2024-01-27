@@ -43,6 +43,7 @@ namespace ECommerce.WebApi.System.Controllers
             if (result.IsSuccess)
             {
                 await this.userService.LoginUserAsync(new LoginInputModel() { Email = input.Email, Password = input.Password });
+                Console.WriteLine(result.Token);
                 return this.Ok(result.Token);
             }
             else
@@ -55,13 +56,12 @@ namespace ECommerce.WebApi.System.Controllers
         [Route(nameof(Login))]
         public async Task<ActionResult> Login([FromBody] LoginInputModel input)
         {
-            // var user = await this.userManager.FindByEmailAsync(input.Email);
             var result = await this.userService.LoginUserAsync(input);
             if (!result.IsSuccess)
             {
                 return this.BadRequest(result.Errors);
             }
-
+            Console.WriteLine(result.Token);
             return this.Ok(result.Token);
 
         }
@@ -70,8 +70,8 @@ namespace ECommerce.WebApi.System.Controllers
         [Route(nameof(Logout))]
         public async Task<ActionResult> Logout()
         {
-            await this.signInManager.SignOutAsync();
-            return this.Ok();
+            var result = await this.userService.LogoutUserAsync();
+            return this.Ok(result);
         }
 
         [HttpPost]

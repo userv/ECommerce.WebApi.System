@@ -11,19 +11,22 @@ namespace ECommerce.WebApi.System.Services
     public class UserService : IUserService
     {
         private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
         private readonly IJwtTokenGeneratorService jwtTokenGeneratorService;
         private readonly IConfiguration configuration;
-        private readonly IMapper mapper;
+       
 
         public UserService(UserManager<User> userManager,
             IConfiguration configuration,
             IJwtTokenGeneratorService jwtTokenGeneratorService,
-            IMapper mapper)
+            SignInManager<User> signInManager
+            )
         {
             this.userManager = userManager;
             this.configuration = configuration;
             this.jwtTokenGeneratorService = jwtTokenGeneratorService;
-            this.mapper = mapper;
+            this.signInManager = signInManager;
+          
         }
 
         public async Task<UserManagerResponse> RegisterUserAsync(RegisterInputModel model)
@@ -38,7 +41,6 @@ namespace ECommerce.WebApi.System.Services
                     IsSuccess = false,
                 };
 
-            //var newUser = this.mapper.Map<User>(model);
             var user = new User
             {
                 UserName = model.Email,
@@ -46,7 +48,10 @@ namespace ECommerce.WebApi.System.Services
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Address = model.Address,
-                Password = model.Password
+                Password = model.Password,
+                Role = model.Role,
+               
+
             };
 
             var result = await this.userManager.CreateAsync(user, model.Password);
@@ -105,33 +110,43 @@ namespace ECommerce.WebApi.System.Services
             };
         }
 
-        private string GenerateJwtToken(User user)
+        public async Task<UserManagerResponse> LogoutUserAsync()
         {
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(configuration["JwtSettings:Secret"]);
-
-            Console.WriteLine(configuration["JwtSettings:Secret"]);
-            Console.WriteLine(key);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
+            await this.signInManager.SignOutAsync();
+            return new UserManagerResponse
             {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.Email)
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
+                Message = "Logged out successfully",
+                IsSuccess = true
             };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var encryptedToken = tokenHandler.WriteToken(token);
-
-            return encryptedToken;
         }
+
+        //private string GenerateJwtToken(User user)
+        //{
+
+        //    var tokenHandler = new JwtSecurityTokenHandler();
+        //    var key = Encoding.ASCII.GetBytes(configuration["JwtSettings:Secret"]);
+
+        //    Console.WriteLine(configuration["JwtSettings:Secret"]);
+        //    Console.WriteLine(key);
+
+        //    var tokenDescriptor = new SecurityTokenDescriptor
+        //    {
+        //        Subject = new ClaimsIdentity(new[]
+        //        {
+        //            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+        //            new Claim(ClaimTypes.Name, user.Email)
+        //        }),
+        //        Expires = DateTime.UtcNow.AddDays(7),
+        //        SigningCredentials = new SigningCredentials(
+        //            new SymmetricSecurityKey(key),
+        //            SecurityAlgorithms.HmacSha256Signature)
+        //    };
+
+        //    var token = tokenHandler.CreateToken(tokenDescriptor);
+        //    var encryptedToken = tokenHandler.WriteToken(token);
+
+        //    return encryptedToken;
+        //}
 
         public async Task<UserManagerResponse> GetUserProfileAsync(string userId)
         {
