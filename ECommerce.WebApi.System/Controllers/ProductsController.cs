@@ -1,6 +1,5 @@
-﻿using ECommerce.WebApi.Models;
-using ECommerce.WebApi.System.Data;
-using ECommerce.WebApi.System.Models;
+﻿using ECommerce.WebApi.System.Data;
+using ECommerce.WebApi.System.Models.Products;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

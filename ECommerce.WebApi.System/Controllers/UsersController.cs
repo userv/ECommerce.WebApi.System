@@ -1,5 +1,5 @@
 ﻿using ECommerce.WebApi.System.Data;
-using ECommerce.WebApi.System.Models;
+using ECommerce.WebApi.System.Models.Identity;
 using ECommerce.WebApi.System.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

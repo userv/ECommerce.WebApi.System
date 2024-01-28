@@ -1,6 +1,7 @@
 ﻿
 using ECommerce.WebApi.System.Data;
-using ECommerce.WebApi.System.Models;
+using ECommerce.WebApi.System.Models.Categories;
+using ECommerce.WebApi.System.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

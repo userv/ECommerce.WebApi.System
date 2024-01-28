@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ECommerce.WebApi.System.Models
+namespace ECommerce.WebApi.System.Models.Identity
 {
     public class UserInputModel
     {

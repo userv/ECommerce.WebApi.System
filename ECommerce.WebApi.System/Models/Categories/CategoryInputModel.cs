@@ -1,4 +1,4 @@
-﻿namespace ECommerce.WebApi.System.Models
+﻿namespace ECommerce.WebApi.System.Models.Categories
 {
     public class CategoryInputModel
     {

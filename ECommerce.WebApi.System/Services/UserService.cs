@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ECommerce.WebApi.System.Models;
+using ECommerce.WebApi.System.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

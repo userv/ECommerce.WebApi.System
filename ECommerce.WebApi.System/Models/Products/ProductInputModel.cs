@@ -1,5 +1,4 @@
-﻿
-namespace ECommerce.WebApi.Models
+﻿namespace ECommerce.WebApi.System.Models.Products
 {
     public class ProductInputModel
     {
@@ -9,6 +8,6 @@ namespace ECommerce.WebApi.Models
         public string ImageUrl { get; set; } = default!;
         public int CategoryId { get; set; }
 
-       // public virtual Category Category { get; set; } = default!;
+        // public virtual Category Category { get; set; } = default!;
     }
 }

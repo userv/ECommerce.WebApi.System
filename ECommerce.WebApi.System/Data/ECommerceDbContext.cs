@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
-using ECommerce.WebApi.System.Models;
+using ECommerce.WebApi.System.Models.Categories;
+using ECommerce.WebApi.System.Models.Identity;
+using ECommerce.WebApi.System.Models.Products;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

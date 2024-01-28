@@ -1,4 +1,4 @@
-﻿using ECommerce.WebApi.System.Models;
+﻿using ECommerce.WebApi.System.Models.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ECommerce.WebApi.System.Services

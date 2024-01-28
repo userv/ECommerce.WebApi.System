@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
-namespace ECommerce.WebApi.System.Models
+namespace ECommerce.WebApi.System.Models.Identity
 {
     public class User : IdentityUser<int>
     {

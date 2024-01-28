@@ -1,6 +1,6 @@
 using AutoMapper;
 using ECommerce.WebApi.System.Data;
-using ECommerce.WebApi.System.Models;
+using ECommerce.WebApi.System.Models.Identity;
 using ECommerce.WebApi.System.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;

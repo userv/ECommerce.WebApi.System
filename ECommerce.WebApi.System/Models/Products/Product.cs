@@ -1,6 +1,8 @@
-﻿namespace ECommerce.WebApi.System.Models
+﻿using ECommerce.WebApi.System.Models.Categories;
+
+namespace ECommerce.WebApi.System.Models.Products
 {
-    public class Product:BaseModel<int>
+    public class Product : BaseModel<int>
     {
         public string Name { get; set; } = default!;
         public string Description { get; set; } = default!;

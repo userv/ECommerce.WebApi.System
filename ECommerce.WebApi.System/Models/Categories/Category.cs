@@ -1,5 +1,6 @@
-﻿
-namespace ECommerce.WebApi.System.Models
+﻿using ECommerce.WebApi.System.Models.Products;
+
+namespace ECommerce.WebApi.System.Models.Categories
 {
     public class Category : BaseModel<int>
     {
