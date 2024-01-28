@@ -1,6 +1,6 @@
 ﻿using ECommerce.WebApi.System.Models.Identity;
 
-namespace ECommerce.WebApi.System.Services
+namespace ECommerce.WebApi.System.Services.Identity
 {
     public interface IUserService
     {

@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace ECommerce.WebApi.System.Services
+namespace ECommerce.WebApi.System.Services.Identity
 {
     public class UserService : IUserService
     {
@@ -14,7 +14,7 @@ namespace ECommerce.WebApi.System.Services
         private readonly SignInManager<User> signInManager;
         private readonly IJwtTokenGeneratorService jwtTokenGeneratorService;
         private readonly IConfiguration configuration;
-       
+
 
         public UserService(UserManager<User> userManager,
             IConfiguration configuration,
@@ -26,7 +26,7 @@ namespace ECommerce.WebApi.System.Services
             this.configuration = configuration;
             this.jwtTokenGeneratorService = jwtTokenGeneratorService;
             this.signInManager = signInManager;
-          
+
         }
 
         public async Task<UserManagerResponse> RegisterUserAsync(RegisterInputModel model)
@@ -50,11 +50,11 @@ namespace ECommerce.WebApi.System.Services
                 Address = model.Address,
                 Password = model.Password,
                 Role = model.Role,
-               
+
 
             };
 
-            var result = await this.userManager.CreateAsync(user, model.Password);
+            var result = await userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
@@ -112,7 +112,7 @@ namespace ECommerce.WebApi.System.Services
 
         public async Task<UserManagerResponse> LogoutUserAsync()
         {
-            await this.signInManager.SignOutAsync();
+            await signInManager.SignOutAsync();
             return new UserManagerResponse
             {
                 Message = "Logged out successfully",

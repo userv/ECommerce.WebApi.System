@@ -21,7 +21,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // GET: api/<ProductsController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Product>>> GetAllProducts()
         {
             if (db.Products.Any() == false)
             {
@@ -42,7 +42,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetById(int id)
+        public async Task<ActionResult> GetProductById(int id)
         {
             var product = await db.Products.FindAsync(id);
             if (product == null)
@@ -54,7 +54,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // POST api/<ProductsController>
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] ProductInputModel productInput)
+        public async Task<ActionResult> CreateProduct([FromBody] ProductInputModel productInput)
         {
             if (!ModelState.IsValid)
             {
@@ -71,13 +71,13 @@ namespace ECommerce.WebApi.System.Controllers
             };
             await db.Products.AddAsync(product);
             await db.SaveChangesAsync();
-            return this.CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
+            return this.CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
 
         }
 
         // PUT api/<ProductsController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> Edit(int id, [FromBody] ProductInputModel productInput)
+        public async Task<ActionResult> EditProduct(int id, [FromBody] ProductInputModel productInput)
         {
             // Code logic for editing the product
             if (!ModelState.IsValid)
@@ -102,7 +102,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // DELETE api/<ProductsController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> DeleteProduct(int id)
         {
             // Code logic for deleting the product
             var product = await db.Products.FindAsync(id);

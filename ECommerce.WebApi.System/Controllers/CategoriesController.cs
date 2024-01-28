@@ -2,6 +2,7 @@
 using ECommerce.WebApi.System.Models;
 using ECommerce.WebApi.System.Models.Categories;
 using ECommerce.WebApi.System.Models.Products;
+using ECommerce.WebApi.System.Services.Categories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,47 +16,32 @@ namespace ECommerce.WebApi.System.Controllers
     public class CategoriesController : ApiController
     {
         private readonly ECommerceDbContext db;
+        private readonly ICategoryService categoryService;
 
-        public CategoriesController(ECommerceDbContext dbContext)
+        public CategoriesController(ECommerceDbContext dbContext, ICategoryService categoryService)
         {
             this.db = dbContext;
+            this.categoryService = categoryService;
         }
         // GET: api/<CategoriesController>
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<Category>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Category>>> GetAllCategoriesWithProducts()
         {
-            if (!db.Categories.Any())
+            var categories = await this.categoryService.GetAllCategoriesWithProducts();
+            if (categories == null)
             {
                 return this.NotFound();
             }
-            return await db.Categories
-                .Include(c => c.Products)
-                .Select(c => new Category
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Description = c.Description,
-                    Products = c.Products.Select(p => new Product
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Description = p.Description,
-                        Price = p.Price,
-                        ImageUrl = p.ImageUrl,
-                        CategoryId = p.CategoryId
-                    }).ToList(),
-                    CreatedOn = c.CreatedOn,
-                    ModifiedOn = c.ModifiedOn,
-                }).ToListAsync();
+            return this.Ok(categories);
 
         }
 
         // GET api/<CategoriesController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetById(int id)
+        public async Task<ActionResult> GetCategoryById(int id)
         {
-            var category = await db.Categories.FindAsync(id);
+            var category = await this.categoryService.GetCategoryById(id);
             if (category == null)
             {
                 return this.NotFound();
@@ -66,45 +52,37 @@ namespace ECommerce.WebApi.System.Controllers
 
         // POST api/<CategoriesController>
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] CategoryInputModel categoryInput)
+        public async Task<ActionResult> CreateCategory([FromBody] CategoryInputModel categoryInput)
         {
             if (!ModelState.IsValid)
             {
                 return this.BadRequest();
             }
 
-            var category = new Category
+            var category = await this.categoryService.CreateCategory(categoryInput);
+            if (category == null)
             {
-                Name = categoryInput.Name,
-                Description = categoryInput.Description
-            };
+                return this.BadRequest();
+            }
+           
 
-            await db.Categories.AddAsync(category);
-            await db.SaveChangesAsync();
-
-            return this.CreatedAtAction(nameof(this.GetById), new { id = category.Id }, category);
+            return this.CreatedAtAction(nameof(this.GetCategoryById), new { id = category.Id }, category);
         }
 
         // PUT api/<CategoriesController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> Edit(int id, [FromBody] CategoryInputModel categoryInput)
+        public async Task<ActionResult> EditCategory(int id, [FromBody] CategoryInputModel categoryInput)
         {
             if (!ModelState.IsValid)
             {
                 return this.BadRequest();
             }
 
-            var category = await db.Categories.FindAsync(id);
+            var category = await this.categoryService.EditCategory(id, categoryInput);
             if (category == null)
             {
                 return this.NotFound();
             }
-
-            category.Name = categoryInput.Name;
-            category.Description = categoryInput.Description;
-            category.ModifiedOn = DateTime.UtcNow;
-
-            await db.SaveChangesAsync();
 
             return this.Ok(category);
 
@@ -112,16 +90,13 @@ namespace ECommerce.WebApi.System.Controllers
 
         // DELETE api/<CategoriesController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> DeleteCategoryById(int id)
         {
-            var category = await db.Categories.FindAsync(id);
+            var category = await this.categoryService.DeleteCategoryById(id);
             if (category == null)
             {
                 return this.NotFound();
             }
-
-            db.Categories.Remove(category);
-            await db.SaveChangesAsync();
 
             return this.Ok();
         }

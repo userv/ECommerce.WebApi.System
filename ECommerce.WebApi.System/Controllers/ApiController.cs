@@ -3,7 +3,7 @@
 namespace ECommerce.WebApi.System.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public abstract class ApiController : ControllerBase
     {
         public const string PathSeparator = "/";

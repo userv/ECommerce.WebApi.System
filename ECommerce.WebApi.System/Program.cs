@@ -2,6 +2,7 @@ using AutoMapper;
 using ECommerce.WebApi.System.Data;
 using ECommerce.WebApi.System.Models.Identity;
 using ECommerce.WebApi.System.Services;
+using ECommerce.WebApi.System.Services.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using ECommerce.WebApi.System.Services.Categories;
 
 namespace ECommerce.WebApi.System
 {
@@ -107,6 +109,7 @@ namespace ECommerce.WebApi.System
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
             
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IJwtTokenGeneratorService, JwtTokenGeneratorService>();
 
 
