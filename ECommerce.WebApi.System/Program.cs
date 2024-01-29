@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 using ECommerce.WebApi.System.Services.Categories;
+using ECommerce.WebApi.System.Services.Products;
 
 namespace ECommerce.WebApi.System
 {
@@ -110,6 +111,7 @@ namespace ECommerce.WebApi.System
             
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IJwtTokenGeneratorService, JwtTokenGeneratorService>();
 
 

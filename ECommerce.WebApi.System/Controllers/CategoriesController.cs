@@ -7,22 +7,21 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace ECommerce.WebApi.System.Controllers
 {
     //[Route("api/[controller]")]
     //[ApiController]
     public class CategoriesController : ApiController
     {
-        private readonly ECommerceDbContext db;
+
         private readonly ICategoryService categoryService;
 
-        public CategoriesController(ECommerceDbContext dbContext, ICategoryService categoryService)
+        public CategoriesController(ICategoryService categoryService)
         {
-            this.db = dbContext;
+
             this.categoryService = categoryService;
         }
+
         // GET: api/<CategoriesController>
         [HttpGet]
         [Authorize]
@@ -64,7 +63,7 @@ namespace ECommerce.WebApi.System.Controllers
             {
                 return this.BadRequest();
             }
-           
+
 
             return this.CreatedAtAction(nameof(this.GetCategoryById), new { id = category.Id }, category);
         }

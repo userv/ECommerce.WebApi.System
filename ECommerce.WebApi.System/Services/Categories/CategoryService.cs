@@ -17,7 +17,7 @@ namespace ECommerce.WebApi.System.Services.Categories
             this.db = db;
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategoriesWithProducts()
+        public async Task<IEnumerable<Category>?> GetAllCategoriesWithProducts()
         {
             return await db.Categories
                 .Include(c => c.Products)
@@ -44,8 +44,6 @@ namespace ECommerce.WebApi.System.Services.Categories
         {
 
             return await this.db.Categories.FindAsync(id);
-           
-
         }
 
         public async Task<Category> CreateCategory(CategoryInputModel categoryInput)
@@ -55,7 +53,6 @@ namespace ECommerce.WebApi.System.Services.Categories
                 Name = categoryInput.Name,
                 Description = categoryInput.Description
             };
-
             await db.Categories.AddAsync(category);
             await db.SaveChangesAsync();
             return category;
@@ -67,14 +64,11 @@ namespace ECommerce.WebApi.System.Services.Categories
             if (category == null)
             {
                 return null;
-
-               // return new NotFoundResult();
             }
 
             category.Name = categoryInput.Name;
             category.Description = categoryInput.Description;
             category.ModifiedOn = DateTime.UtcNow;
-
             await db.SaveChangesAsync();
             return category;
         }
@@ -86,10 +80,8 @@ namespace ECommerce.WebApi.System.Services.Categories
             {
                 return null;
             }
-
             db.Categories.Remove(category);
             await db.SaveChangesAsync();
-
             return category;
         }
     }

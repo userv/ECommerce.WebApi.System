@@ -32,7 +32,6 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Services\Shipping\" />
-    <Folder Include="Services\Products\" />
     <Folder Include="Services\Orders\" />
   </ItemGroup>
 

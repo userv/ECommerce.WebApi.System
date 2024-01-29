@@ -1,9 +1,8 @@
 ﻿using ECommerce.WebApi.System.Data;
 using ECommerce.WebApi.System.Models.Products;
+using ECommerce.WebApi.System.Services.Products;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ECommerce.WebApi.System.Controllers
 {
@@ -11,32 +10,25 @@ namespace ECommerce.WebApi.System.Controllers
     //[ApiController]
     public class ProductsController : ApiController
     {
-        private readonly ECommerceDbContext db;
+        private readonly IProductService productService;
 
 
-        public ProductsController(ECommerceDbContext dbContext)
+        public ProductsController(ECommerceDbContext dbContext, IProductService productService)
         {
-            this.db = dbContext;
+            this.productService = productService;
         }
 
         // GET: api/<ProductsController>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetAllProducts()
         {
-            if (db.Products.Any() == false)
+            var products = await this.productService.GetAllProducts();
+            if (products == null)
             {
                 return this.NotFound();
             }
 
-            return await db.Products.Select(x => new Product
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                Price = x.Price,
-                ImageUrl = x.ImageUrl,
-                CategoryId = x.CategoryId
-            }).ToListAsync();
+            return this.Ok(products);
         }
 
 
@@ -44,7 +36,7 @@ namespace ECommerce.WebApi.System.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetProductById(int id)
         {
-            var product = await db.Products.FindAsync(id);
+            var product = await this.productService.GetProductById(id);
             if (product == null)
             {
                 return this.NotFound();
@@ -61,58 +53,42 @@ namespace ECommerce.WebApi.System.Controllers
                 return this.BadRequest();
             }
 
-            var product = new Product
+            var product = await this.productService.CreateProduct(productInput);
+            if (product == null)
             {
-                Name = productInput.Name,
-                Description = productInput.Description,
-                Price = productInput.Price,
-                ImageUrl = productInput.ImageUrl,
-                CategoryId = productInput.CategoryId
-            };
-            await db.Products.AddAsync(product);
-            await db.SaveChangesAsync();
+                return this.BadRequest();
+            }
+            
             return this.CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
 
         }
 
         // PUT api/<ProductsController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> EditProduct(int id, [FromBody] ProductInputModel productInput)
+        public async Task<ActionResult> EditProductById(int id, [FromBody] ProductInputModel productInput)
         {
             // Code logic for editing the product
             if (!ModelState.IsValid)
             {
                 this.BadRequest();
             }
-            var product = await db.Products.FindAsync(id);
-            if (product == null)
-            {
-                return this.NotFound();
-            }
-            product.Name = productInput.Name;
-            product.Description = productInput.Description;
-            product.Price = productInput.Price;
-            product.ImageUrl = productInput.ImageUrl;
-            product.CategoryId = productInput.CategoryId;
-            product.ModifiedOn = DateTime.UtcNow;
-            await db.SaveChangesAsync();
+            var product = await this.productService.EditProductById(id, productInput);
+            
             return this.Ok(product);
 
         }
 
         // DELETE api/<ProductsController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteProduct(int id)
+        public async Task<ActionResult> DeleteProductById(int id)
         {
             // Code logic for deleting the product
-            var product = await db.Products.FindAsync(id);
+            var product = await this.productService.DeleteProductById(id);
             if (product == null)
             {
                 return this.NotFound();
             }
-            db.Products.Remove(product);
-            await db.SaveChangesAsync();
-            return this.Ok();
+            return this.Ok(product);
 
         }
     }
