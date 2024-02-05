@@ -12,6 +12,8 @@ using System.Reflection;
 using System.Text;
 using ECommerce.WebApi.System.Services.Categories;
 using ECommerce.WebApi.System.Services.Products;
+using System.Text.Json.Serialization;
+using ECommerce.WebApi.System.Services.Orders;
 
 namespace ECommerce.WebApi.System
 {
@@ -43,7 +45,8 @@ namespace ECommerce.WebApi.System
             //.AddEntityFrameworkStores<ECommerceDbContext>();
 
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); ;
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             // builder.Services.AddSwaggerGen();
@@ -104,15 +107,14 @@ namespace ECommerce.WebApi.System
 
             builder.Services.AddAuthorization();
 
-            //var configuration = new MapperConfiguration(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly()));
-            //builder.Services.AddSingleton(configuration.CreateMapper());
-
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
             
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IJwtTokenGeneratorService, JwtTokenGeneratorService>();
+            
 
 
 

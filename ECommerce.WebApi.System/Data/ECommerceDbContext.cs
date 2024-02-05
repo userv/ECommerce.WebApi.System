@@ -22,6 +22,7 @@ namespace ECommerce.WebApi.System.Data
         public DbSet<Product> Products { get; set; } = default!;
         public DbSet<Category> Categories { get; set; } = default!;
         public DbSet<Order> Orders { get; set; } = default!;
+        public DbSet<OrderItem> OrderItems { get; set; } = default!;
         public DbSet<Shipping> Shippings { get; set; } = default!;
 
 

@@ -32,6 +32,7 @@ namespace ECommerce.WebApi.System.Services.Products
                 Name = productInput.Name,
                 Description = productInput.Description,
                 Price = productInput.Price,
+                UnitsInStock = productInput.UnitsInStock,
                 ImageUrl = productInput.ImageUrl,
                 CategoryId = productInput.CategoryId
             };
@@ -50,9 +51,11 @@ namespace ECommerce.WebApi.System.Services.Products
             product.Name = productInput.Name;
             product.Description = productInput.Description;
             product.Price = productInput.Price;
+            product.UnitsInStock = productInput.UnitsInStock;
             product.ImageUrl = productInput.ImageUrl;
             product.CategoryId = productInput.CategoryId;
             product.ModifiedOn = DateTime.UtcNow;
+            db.Products.Update(product);
             await db.SaveChangesAsync();
             return product;
         }

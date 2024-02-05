@@ -3,21 +3,21 @@ using ECommerce.WebApi.System.Models.Products;
 
 namespace ECommerce.WebApi.System.Models.Orders
 {
-    public class Order: BaseModel<int>
+    public class Order : BaseModel<int>
     {
-        
-        public DateTime OrderDate { get; set; }
+
+        public DateTime OrderDate { get; init; } = DateTime.UtcNow;
 
         // Foreign Key for User 
-        public string UserId { get; set; }
-        public virtual User User { get; set; } // Navigation property for the user who placed the order
+        public int UserId { get; set; }
+        public virtual User? User { get; set; } // Navigation property for the user who placed the order
 
         // Collection of Order Items
-        public virtual ICollection<Product> Products { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
         // Payment Details
-        public decimal TotalAmount { get; set; }
-        public bool IsPaymentComplete { get; set; }
+        public decimal TotalAmount { get; set; } = 0;
+        public bool IsPaymentComplete { get; set; } = false;
 
         //// Shipping Details
         //public string ShippingAddress { get; set; } 

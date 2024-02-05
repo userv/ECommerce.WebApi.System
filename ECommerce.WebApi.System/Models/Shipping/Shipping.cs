@@ -9,8 +9,8 @@ namespace ECommerce.WebApi.System.Models.Shipping
         public string PostalCode { get; set; }
         public string Country { get; set; }
         public string ShippingMethod { get; set; } // e.g., Standard, Express
-        public string TrackingNumber { get; set; }
-        public string Status { get; set; } // e.g., Pending, Shipped, Delivered
+        public string TrackingNumber { get; init; } = Guid.NewGuid().ToString();
+        public string Status { get; set; } = "Pending";  // e.g., Pending, Shipped, Delivered
 
         public int OrderId { get; set; } // Reference to the Order
         // Navigation property

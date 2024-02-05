@@ -30,9 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="Services\Shipping\" />
-    <Folder Include="Services\Orders\" />
   </ItemGroup>
 
 </Project>

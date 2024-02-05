@@ -4,6 +4,7 @@ using ECommerce.WebApi.System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.WebApi.System.Migrations
 {
     [DbContext(typeof(ECommerceDbContext))]
-    partial class ECommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240203111945_Fix_Order")]
+    partial class Fix_Order
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,41 +175,6 @@ namespace ECommerce.WebApi.System.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("ECommerce.WebApi.System.Models.Orders.OrderItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderItems");
-                });
-
             modelBuilder.Entity("ECommerce.WebApi.System.Models.Products.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -236,15 +204,17 @@ namespace ECommerce.WebApi.System.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("UnitsInStock")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Products");
                 });
@@ -445,25 +415,6 @@ namespace ECommerce.WebApi.System.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ECommerce.WebApi.System.Models.Orders.OrderItem", b =>
-                {
-                    b.HasOne("ECommerce.WebApi.System.Models.Orders.Order", "Order")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ECommerce.WebApi.System.Models.Products.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("ECommerce.WebApi.System.Models.Products.Product", b =>
                 {
                     b.HasOne("ECommerce.WebApi.System.Models.Categories.Category", "Category")
@@ -471,6 +422,10 @@ namespace ECommerce.WebApi.System.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ECommerce.WebApi.System.Models.Orders.Order", null)
+                        .WithMany("Products")
+                        .HasForeignKey("OrderId");
 
                     b.Navigation("Category");
                 });
@@ -544,7 +499,7 @@ namespace ECommerce.WebApi.System.Migrations
 
             modelBuilder.Entity("ECommerce.WebApi.System.Models.Orders.Order", b =>
                 {
-                    b.Navigation("OrderItems");
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
