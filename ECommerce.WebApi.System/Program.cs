@@ -14,6 +14,7 @@ using ECommerce.WebApi.System.Services.Categories;
 using ECommerce.WebApi.System.Services.Products;
 using System.Text.Json.Serialization;
 using ECommerce.WebApi.System.Services.Orders;
+using ECommerce.WebApi.System.Services.Shippings;
 
 namespace ECommerce.WebApi.System
 {
@@ -113,6 +114,7 @@ namespace ECommerce.WebApi.System
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IShippingService, ShippingService>();
             builder.Services.AddScoped<IJwtTokenGeneratorService, JwtTokenGeneratorService>();
             
 

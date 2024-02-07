@@ -64,8 +64,8 @@ namespace ECommerce.WebApi.System
                 {
                     UserName = "admin",
                     Email = "admin@admin.bg",
-                    FirstName = "Rosen",
-                    LastName = "Angelov",
+                    FirstName = "Superuser",
+                    LastName = "root",
                     Address = "Sofia",
                     Password = "Rs123456#",
                     Role = "Admin"
