@@ -74,25 +74,18 @@ namespace ECommerce.WebApi.System.Controllers
             return this.Ok(result);
         }
 
-        [HttpPost]
-        [Route(nameof(ForgotPassword))]
-        public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordInputModel input)
-        {
-            var user = await this.userManager.FindByEmailAsync(input.Email);
-            if (user == null)
-            {
-                return this.BadRequest();
-            }
-
-            //var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
-            //var callbackUrl = this.Url.Page(
-            //                   "/Users/ResetPassword",
-            //                                  pageHandler: null,
-            //                                  values: new { token, email = user.Email },
-            //                                  protocol: this.Request.Scheme);
-            return this.Ok();
-        }
-
+        //[HttpPost]
+        //[Route(nameof(ForgotPassword))]
+        //public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordInputModel input)
+        //{
+        //    var user = await this.userManager.FindByEmailAsync(input.Email);
+        //    if (user == null)
+        //    {
+        //        return this.BadRequest();
+        //    }
+            
+        //    return this.Ok();
+        //}
 
     }
 }

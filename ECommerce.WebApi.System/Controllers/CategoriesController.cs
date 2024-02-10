@@ -20,7 +20,6 @@ namespace ECommerce.WebApi.System.Controllers
 
         // GET: api/<CategoriesController>
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
         {
             var categories = await this.categoryService.GetAllCategories();
@@ -47,6 +46,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // POST api/<CategoriesController>
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> CreateCategory([FromBody] CategoryInputModel categoryInput)
         {
             if (!ModelState.IsValid)
@@ -66,6 +66,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // PUT api/<CategoriesController>/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult> EditCategory(int id, [FromBody] CategoryInputModel categoryInput)
         {
             if (!ModelState.IsValid)
@@ -85,6 +86,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // DELETE api/<CategoriesController>/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult> DeleteCategoryById(int id)
         {
             var category = await this.categoryService.DeleteCategoryById(id);

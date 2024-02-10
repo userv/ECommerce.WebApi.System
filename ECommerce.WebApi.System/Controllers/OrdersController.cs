@@ -1,6 +1,7 @@
 ﻿using ECommerce.WebApi.System.Data;
 using ECommerce.WebApi.System.Models.Orders;
 using ECommerce.WebApi.System.Services.Orders;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,6 +45,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // PUT: api/Orders/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult> EditOrder([FromBody] OrderEditInputModel orderEditInput)
         {
             if (!ModelState.IsValid)
@@ -61,6 +63,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // POST: api/Orders
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Order>> CreateOrder([FromBody] OrderInputModel orderInput)
         {
             if (!ModelState.IsValid)
@@ -78,6 +81,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // DELETE: api/Orders/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult> DeleteOrderById(int id)
         {
             var order = await this.orderService.DeleteOrderById(id);

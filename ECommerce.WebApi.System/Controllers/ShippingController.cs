@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ECommerce.WebApi.System.Data;
 using ECommerce.WebApi.System.Models.Shipping;
 using ECommerce.WebApi.System.Services.Shippings;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ECommerce.WebApi.System.Controllers
 {
@@ -46,6 +47,7 @@ namespace ECommerce.WebApi.System.Controllers
         // POST: api/Shipping
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Shipping>> CreateShipping([FromBody] ShippingInputModel shippingInput)
         {
             if (!ModelState.IsValid)
@@ -62,8 +64,8 @@ namespace ECommerce.WebApi.System.Controllers
 
 
         // PUT: api/Shipping/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult> EditShipping([FromBody] ShippingEditInputModel shippingInput)
         {
             if (!ModelState.IsValid)
@@ -82,6 +84,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // DELETE: api/Shipping/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult> DeleteShippingById(int id)
         {
             var shipping = await this.shippingService.DeleteShippingById(id);
@@ -106,6 +109,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // PUT: api/Shipping/5/Status
         [HttpPut("{id}/Status")]
+        [Authorize]
         public async Task<ActionResult> UpdateShippingStatus(int id, [FromBody] ShippingStatus status)
         {
             var shippingStatus = await this.shippingService.UpdateShippingStatus(id, status);

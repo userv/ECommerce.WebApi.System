@@ -1,6 +1,7 @@
 ﻿using ECommerce.WebApi.System.Data;
 using ECommerce.WebApi.System.Models.Products;
 using ECommerce.WebApi.System.Services.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -46,6 +47,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // POST api/<ProductsController>
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> CreateProduct([FromBody] ProductInputModel productInput)
         {
             if (!ModelState.IsValid)
@@ -65,6 +67,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // PUT api/<ProductsController>/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult> EditProductById(int id, [FromBody] ProductInputModel productInput)
         {
             // Code logic for editing the product
@@ -80,6 +83,7 @@ namespace ECommerce.WebApi.System.Controllers
 
         // DELETE api/<ProductsController>/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult> DeleteProductById(int id)
         {
             // Code logic for deleting the product
