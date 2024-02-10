@@ -1,11 +1,7 @@
-﻿using ECommerce.WebApi.System.Data;
-using ECommerce.WebApi.System.Models;
-using ECommerce.WebApi.System.Models.Categories;
-using ECommerce.WebApi.System.Models.Products;
+﻿using ECommerce.WebApi.System.Models.Categories;
 using ECommerce.WebApi.System.Services.Categories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.WebApi.System.Controllers
 {
@@ -25,9 +21,9 @@ namespace ECommerce.WebApi.System.Controllers
         // GET: api/<CategoriesController>
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<Category>>> GetAllCategoriesWithProducts()
+        public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
         {
-            var categories = await this.categoryService.GetAllCategoriesWithProducts();
+            var categories = await this.categoryService.GetAllCategories();
             if (categories == null)
             {
                 return this.NotFound();

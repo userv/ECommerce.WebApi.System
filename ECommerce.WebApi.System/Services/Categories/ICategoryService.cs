@@ -5,6 +5,7 @@ namespace ECommerce.WebApi.System.Services.Categories
 {
     public interface ICategoryService
     {
+        Task<IEnumerable<Category>?> GetAllCategories();
         Task<IEnumerable<Category>?> GetAllCategoriesWithProducts();
         Task<Category?> GetCategoryById(int id);
         Task<Category> CreateCategory([FromBody] CategoryInputModel categoryInput);

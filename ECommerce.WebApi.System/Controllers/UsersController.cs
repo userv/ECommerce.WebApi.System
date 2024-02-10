@@ -86,7 +86,7 @@ namespace ECommerce.WebApi.System.Controllers
 
             //var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
             //var callbackUrl = this.Url.Page(
-            //                   "/Account/ResetPassword",
+            //                   "/Users/ResetPassword",
             //                                  pageHandler: null,
             //                                  values: new { token, email = user.Email },
             //                                  protocol: this.Request.Scheme);

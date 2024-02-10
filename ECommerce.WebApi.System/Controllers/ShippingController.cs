@@ -10,13 +10,11 @@ namespace ECommerce.WebApi.System.Controllers
     [ApiController]
     public class ShippingController : ControllerBase
     {
-        private readonly ECommerceDbContext db;
         private readonly IShippingService shippingService;
 
 
         public ShippingController(ECommerceDbContext db, IShippingService shippingService)
         {
-            this.db = db;
             this.shippingService = shippingService;
         }
 

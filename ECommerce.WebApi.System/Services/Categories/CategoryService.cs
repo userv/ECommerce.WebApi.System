@@ -17,6 +17,11 @@ namespace ECommerce.WebApi.System.Services.Categories
             this.db = db;
         }
 
+        public async Task<IEnumerable<Category>?> GetAllCategories()
+        {
+            return await this.db.Categories.ToListAsync();
+        }
+
         public async Task<IEnumerable<Category>?> GetAllCategoriesWithProducts()
         {
             return await db.Categories

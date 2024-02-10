@@ -100,6 +100,7 @@ namespace ECommerce.WebApi.System.Services.Identity
             // Generate JWT Token
             //var token = GenerateJwtToken(user);
             var token = jwtTokenGeneratorService.GenerateJwtToken(user, configuration);
+            await signInManager.SignInAsync(user, isPersistent: true);
 
             return new UserManagerResponse
             {
@@ -120,33 +121,6 @@ namespace ECommerce.WebApi.System.Services.Identity
             };
         }
 
-        //private string GenerateJwtToken(User user)
-        //{
-
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-        //    var key = Encoding.ASCII.GetBytes(configuration["JwtSettings:Secret"]);
-
-        //    Console.WriteLine(configuration["JwtSettings:Secret"]);
-        //    Console.WriteLine(key);
-
-        //    var tokenDescriptor = new SecurityTokenDescriptor
-        //    {
-        //        Subject = new ClaimsIdentity(new[]
-        //        {
-        //            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        //            new Claim(ClaimTypes.Name, user.Email)
-        //        }),
-        //        Expires = DateTime.UtcNow.AddDays(7),
-        //        SigningCredentials = new SigningCredentials(
-        //            new SymmetricSecurityKey(key),
-        //            SecurityAlgorithms.HmacSha256Signature)
-        //    };
-
-        //    var token = tokenHandler.CreateToken(tokenDescriptor);
-        //    var encryptedToken = tokenHandler.WriteToken(token);
-
-        //    return encryptedToken;
-        //}
 
         public async Task<UserManagerResponse> GetUserProfileAsync(string userId)
         {

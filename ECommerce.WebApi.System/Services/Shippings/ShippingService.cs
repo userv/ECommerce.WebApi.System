@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.WebApi.System.Services.Shippings
 {
-    public class ShippingService: IShippingService
+    public class ShippingService : IShippingService
     {
         private readonly ECommerceDbContext db;
 
@@ -15,7 +15,7 @@ namespace ECommerce.WebApi.System.Services.Shippings
             this.db = db;
         }
 
-        public async  Task<IEnumerable<Shipping>?> GetAllShipping()
+        public async Task<IEnumerable<Shipping>?> GetAllShipping()
         {
             return await this.db.Shippings.ToListAsync();
         }
@@ -23,7 +23,7 @@ namespace ECommerce.WebApi.System.Services.Shippings
         public async Task<Shipping?> GetShippingById(int id)
         {
             return await db.Shippings.FindAsync(id);
-            
+
         }
 
         public async Task<Shipping?> CreateShipping(ShippingInputModel shippingInput)
@@ -44,7 +44,7 @@ namespace ECommerce.WebApi.System.Services.Shippings
             return shipping;
         }
 
-        public  async Task<Shipping?> EditShipping(ShippingEditInputModel shippingInput)
+        public async Task<Shipping?> EditShipping(ShippingEditInputModel shippingInput)
         {
             var shipping = await db.Shippings.FindAsync(shippingInput.Id);
             if (shipping == null)
