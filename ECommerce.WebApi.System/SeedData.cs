@@ -1,5 +1,4 @@
-﻿
-using ECommerce.WebApi.System.Data;
+﻿using ECommerce.WebApi.System.Data;
 using ECommerce.WebApi.System.Models.Categories;
 using ECommerce.WebApi.System.Models.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -35,8 +34,8 @@ namespace ECommerce.WebApi.System
             {
                 foreach (var user in GetUsers())
                 {
-                 //   db.Users.Add(user);
-                 var results=userManager.CreateAsync(user, user.Password).GetAwaiter().GetResult();
+                    //   db.Users.Add(user);
+                    var results = userManager.CreateAsync(user, user.Password).GetAwaiter().GetResult();
                 }
                 // db.Categories.AddRange(GetCategories());
                 db.SaveChanges();
@@ -46,7 +45,7 @@ namespace ECommerce.WebApi.System
 
         }
 
-        public static IEnumerable<User> GetUsers()
+        private static IEnumerable<User> GetUsers()
         {
             return new List<User>
             {
@@ -74,7 +73,8 @@ namespace ECommerce.WebApi.System
                 }
             };
         }
-        public static IEnumerable<Category> GetCategories()
+
+        private static IEnumerable<Category> GetCategories()
         {
             return new List<Category>
             {
@@ -169,9 +169,7 @@ namespace ECommerce.WebApi.System
                     Description = "Music products"
                 },
 
-
             };
-
 
         }
     }

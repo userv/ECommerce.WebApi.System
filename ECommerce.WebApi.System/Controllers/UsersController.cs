@@ -8,8 +8,7 @@ namespace ECommerce.WebApi.System.Controllers
 {
     public class UsersController : ApiController
     {
-        private readonly ECommerceDbContext db;
-        private readonly UserManager<User> userManager;
+        
         private readonly IUserService userService;
 
         private readonly SignInManager<User> signInManager;
@@ -24,8 +23,6 @@ namespace ECommerce.WebApi.System.Controllers
         )
         {
             this.userService = userService;
-            this.db = dbContext;
-            this.userManager = userManager;
             this.signInManager = signInManager;
             //this.configuration = configuration;
             //this.emailSender = emailSender;

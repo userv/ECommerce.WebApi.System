@@ -1,5 +1,4 @@
-﻿using ECommerce.WebApi.System.Data;
-using ECommerce.WebApi.System.Models.Products;
+﻿using ECommerce.WebApi.System.Models.Products;
 using ECommerce.WebApi.System.Services.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,7 @@ namespace ECommerce.WebApi.System.Controllers
         private readonly IProductService productService;
 
 
-        public ProductsController(ECommerceDbContext dbContext, IProductService productService)
+        public ProductsController(IProductService productService)
         {
             this.productService = productService;
         }
@@ -60,7 +59,7 @@ namespace ECommerce.WebApi.System.Controllers
             {
                 return this.BadRequest();
             }
-            
+
             return this.CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
 
         }
@@ -76,7 +75,7 @@ namespace ECommerce.WebApi.System.Controllers
                 this.BadRequest();
             }
             var product = await this.productService.EditProductById(id, productInput);
-            
+
             return this.Ok(product);
 
         }

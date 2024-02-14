@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ECommerce.WebApi.System.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ShippingController : ControllerBase
+    //[Route("api/[controller]")]
+    //[ApiController]
+    public class ShippingController : ApiController
     {
         private readonly IShippingService shippingService;
 
 
-        public ShippingController(ECommerceDbContext db, IShippingService shippingService)
+        public ShippingController(IShippingService shippingService)
         {
             this.shippingService = shippingService;
         }
@@ -45,7 +45,6 @@ namespace ECommerce.WebApi.System.Controllers
         }
 
         // POST: api/Shipping
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<Shipping>> CreateShipping([FromBody] ShippingInputModel shippingInput)

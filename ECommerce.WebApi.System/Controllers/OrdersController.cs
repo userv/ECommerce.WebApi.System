@@ -1,9 +1,7 @@
-﻿using ECommerce.WebApi.System.Data;
-using ECommerce.WebApi.System.Models.Orders;
+﻿using ECommerce.WebApi.System.Models.Orders;
 using ECommerce.WebApi.System.Services.Orders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.WebApi.System.Controllers
 {
@@ -13,7 +11,7 @@ namespace ECommerce.WebApi.System.Controllers
     {
         private readonly IOrderService orderService;
 
-        public OrdersController(ECommerceDbContext db, IOrderService orderService)
+        public OrdersController(IOrderService orderService)
         {
             this.orderService = orderService;
         }

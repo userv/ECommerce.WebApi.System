@@ -1,7 +1,5 @@
 ﻿using ECommerce.WebApi.System.Data;
 using ECommerce.WebApi.System.Models.Shipping;
-using ECommerce.WebApi.System.Services.Shippings;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.WebApi.System.Services.Shippings
