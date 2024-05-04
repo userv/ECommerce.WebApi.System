@@ -32,3 +32,12 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Azure subscription 1(0ecc1da9-6cd5-4561-a326-36b9af7019f0)'
+    appType: 'webAppLinux'
+    appName: 'ecwebapi'
+    deployToSlotOrASE: true
+    resourceGroupName: 'UTP-RG1'
+    slotName: 'production'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
