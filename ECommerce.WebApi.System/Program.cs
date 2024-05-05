@@ -50,12 +50,12 @@ namespace ECommerce.WebApi.System
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); ;
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(options =>
-            {
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                options.IncludeXmlComments(xmlPath);
-            });
+            //builder.Services.AddSwaggerGen(options =>
+            //{
+            //    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            //    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            //    options.IncludeXmlComments(xmlPath);
+            //});
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce.WebApi.System", Version = "v1" });
@@ -121,21 +121,26 @@ namespace ECommerce.WebApi.System
             builder.Services.AddScoped<IShippingService, ShippingService>();
             builder.Services.AddScoped<IJwtTokenGeneratorService, JwtTokenGeneratorService>();
             
-
+            
 
 
             var app = builder.Build();
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerce.WebApi.System v1");
+                options.RoutePrefix = string.Empty;
+            });
+
+            //if (app.Environment.IsDevelopment())
+            //{
 
                 var db = app.Services.CreateScope().ServiceProvider.GetRequiredService<ECommerceDbContext>();
                 var userManager = app.Services.CreateScope().ServiceProvider.GetRequiredService<UserManager<User>>();
                 SeedData.Seed(db, userManager);
-            }
+            //}
 
             app.UseHttpsRedirection();
             app.UseRouting();
