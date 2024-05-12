@@ -50,12 +50,7 @@ namespace ECommerce.WebApi.System
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); ;
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            //builder.Services.AddSwaggerGen(options =>
-            //{
-            //    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            //    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            //    options.IncludeXmlComments(xmlPath);
-            //});
+            
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "ECommerce.WebApi.System", Version = "v1" });
@@ -139,7 +134,8 @@ namespace ECommerce.WebApi.System
 
                 var db = app.Services.CreateScope().ServiceProvider.GetRequiredService<ECommerceDbContext>();
                 var userManager = app.Services.CreateScope().ServiceProvider.GetRequiredService<UserManager<User>>();
-                SeedData.Seed(db, userManager);
+                var roleManager = app.Services.CreateScope().ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+                SeedData.Seed(db, userManager, roleManager);
             //}
 
             app.UseHttpsRedirection();

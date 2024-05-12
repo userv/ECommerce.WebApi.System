@@ -18,7 +18,7 @@ namespace ECommerce.WebApi.System.Data
         {
         }
 
-        public DbSet<User> Users { get; set; } = default!;
+        public override DbSet<User>  Users { get; set; } = default!;
         public DbSet<Product> Products { get; set; } = default!;
         public DbSet<Category> Categories { get; set; } = default!;
         public DbSet<Order> Orders { get; set; } = default!;

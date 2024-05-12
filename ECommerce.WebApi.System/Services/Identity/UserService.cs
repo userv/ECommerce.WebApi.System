@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.CodeAnalysis;
 
 namespace ECommerce.WebApi.System.Services.Identity
 {
@@ -41,24 +42,23 @@ namespace ECommerce.WebApi.System.Services.Identity
                     IsSuccess = false,
                 };
 
-            var user = new User
+            var user = new User()
             {
                 UserName = model.Email,
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Address = model.Address,
-                Password = model.Password,
-                Role = model.Role,
-
+                Role = model.Role
 
             };
-
+          
             var result = await userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
                 // Optionally, add claims or roles here
+                result =  await userManager.AddToRoleAsync(user, user.Role);
 
                 return new UserManagerResponse
                 {
@@ -98,10 +98,10 @@ namespace ECommerce.WebApi.System.Services.Identity
                 };
 
             // Generate JWT Token
-            //var token = GenerateJwtToken(user);
             var token = jwtTokenGeneratorService.GenerateJwtToken(user, configuration);
             await signInManager.SignInAsync(user, isPersistent: true);
 
+            
             return new UserManagerResponse
             {
                 Message = "Logged in successfully",

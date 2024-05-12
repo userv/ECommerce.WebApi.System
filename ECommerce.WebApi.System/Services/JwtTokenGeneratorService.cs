@@ -15,8 +15,39 @@ namespace ECommerce.WebApi.System.Services
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                // Add additional claims as needed
+                new Claim(ClaimTypes.Role,user.Role)
+                
             };
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            if (user.UserName == null)
+            {
+                throw new ArgumentNullException(nameof(user.UserName));
+            }
+
+            if (user.Id == null)
+            {
+                throw new ArgumentNullException(nameof(user.Id));
+            }
+
+            if (user.Role == null || user.Role == null)
+            {
+                throw new ArgumentNullException(nameof(user.Role));
+            }
+
+            if (configuration == null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
+            string secret = configuration["JwtSettings:Secret"];
+            if (secret == null)
+            {
+                throw new ArgumentNullException("JwtSettings:Secret");
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Secret"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -29,7 +60,7 @@ namespace ECommerce.WebApi.System.Services
                 expires: expires,
                 signingCredentials: creds
             );
-
+           
             return token;
         }
     }

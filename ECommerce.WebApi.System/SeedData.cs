@@ -3,75 +3,68 @@ using ECommerce.WebApi.System.Models.Categories;
 using ECommerce.WebApi.System.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using Microsoft.CodeAnalysis.FlowAnalysis;
 
 namespace ECommerce.WebApi.System
 {
     public class SeedData
     {
-        private readonly ECommerceDbContext db;
-        private readonly UserManager<User> userManager;
-        public SeedData(ECommerceDbContext db, UserManager<User> userManager)
+        private const string DefaultAdminPassword = "Rs123456#";
+        
+
+        private static readonly Dictionary<string, IdentityRole<int>> Roles = new Dictionary<string, IdentityRole<int>>()
         {
-            this.db = db;
-            this.userManager = userManager;
-        }
-        public static void Seed(ECommerceDbContext db, UserManager<User> userManager)
+            { "Admin", new IdentityRole<int>("Admin")},
+            { "Poweruser", new IdentityRole<int>("Poweruser")},
+            { "User", new IdentityRole <int>("User")}
+        };
+
+
+
+        public static async void Seed(ECommerceDbContext db, UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
 
 
-            db.Database.Migrate();
-            if (db.Categories.Any() == false)
+            await db.Database.MigrateAsync();
+            if (await db.Categories.AnyAsync() == false)
             {
                 foreach (var category in GetCategories())
                 {
-                    db.Categories.Add(category);
+                    await db.Categories.AddAsync(category);
                 }
-                // db.Categories.AddRange(GetCategories());
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
 
-            if (db.Users.Any() == false)
+            foreach (var identityRole in Roles)
             {
-                foreach (var user in GetUsers())
+                var exists = await roleManager.RoleExistsAsync(identityRole.Key);
+
+                if (!exists)
                 {
-                    //   db.Users.Add(user);
-                    var results = userManager.CreateAsync(user, user.Password).GetAwaiter().GetResult();
+                   await roleManager.CreateAsync(identityRole.Value);
                 }
-                // db.Categories.AddRange(GetCategories());
-                db.SaveChanges();
             }
 
-
-
-        }
-
-        private static IEnumerable<User> GetUsers()
-        {
-            return new List<User>
+            var adminUser = new User
             {
-                new User
-                {
-                    UserName = "user",
-                    Email = "user@mail.bg",
-                    FirstName = "User",
-                    LastName = "User",
-                    Address = "Sofia",
-                    Password = "Rs123456#",
-                    Role = "User"
-                },
-                new User
-                {
-                    UserName = "admin",
-                    Email = "admin@admin.bg",
-                    FirstName = "Superuser",
-                    LastName = "root",
-                    Address = "Sofia",
-                    Password = "Rs123456#",
-                    Role = "Admin"
-
-
-                }
+                Email = "admin@admin.bg",
+                FirstName = "Superuser",
+                LastName = "root",
+                Address = "Sofia"
             };
+
+
+            var admin = await userManager.FindByEmailAsync(adminUser.Email);
+            if (admin == null)
+            {
+
+                await userManager.CreateAsync(adminUser, DefaultAdminPassword);
+                await userManager.AddToRoleAsync(adminUser, Roles["Admin"].Name);
+            }
+
+
+
         }
 
         private static IEnumerable<Category> GetCategories()
