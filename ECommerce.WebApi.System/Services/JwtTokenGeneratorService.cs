@@ -10,14 +10,6 @@ namespace ECommerce.WebApi.System.Services
     {
         public SecurityToken GenerateJwtToken(User user, IConfiguration configuration)
         {
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role,user.Role)
-                
-            };
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
@@ -26,11 +18,6 @@ namespace ECommerce.WebApi.System.Services
             if (user.UserName == null)
             {
                 throw new ArgumentNullException(nameof(user.UserName));
-            }
-
-            if (user.Id == null)
-            {
-                throw new ArgumentNullException(nameof(user.Id));
             }
 
             if (user.Role == null || user.Role == null)
@@ -43,7 +30,17 @@ namespace ECommerce.WebApi.System.Services
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            string secret = configuration["JwtSettings:Secret"];
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Role,user.Role)
+                
+            };
+            
+
+            string? secret = configuration["JwtSettings:Secret"];
             if (secret == null)
             {
                 throw new ArgumentNullException("JwtSettings:Secret");

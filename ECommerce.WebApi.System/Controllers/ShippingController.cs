@@ -9,7 +9,7 @@ namespace ECommerce.WebApi.System.Controllers
 {
     //[Route("api/[controller]")]
     //[ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class ShippingController : ApiController
     {
         private readonly IShippingService shippingService;
